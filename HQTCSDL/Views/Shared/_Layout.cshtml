@@ -1,39 +1,163 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>@ViewBag.Title - MILA HOTEL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous" />
+
+    <!-- Font Awesome (icon social, phone, etc.) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          integrity="sha512-"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="~/Content/site.css" />
+
+    @RenderSection("Styles", required: false)
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <!-- Header / Navbar -->
+    <header class="shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
+                    <span class="brand-logo me-2">
+                        MH
+                    </span>
+                    <div class="d-flex flex-column lh-1">
+                        <span class="fw-bold text-primary-brand">MILA HOTEL</span>
+                        <small class="text-muted">Vung Tau | Beach & Pool</small>
+                    </div>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar" aria-controls="mainNavbar"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="@Url.Action("Index","Home")">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#hotels">Khách sạn</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#facilities">Tiện nghi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#blog">Tin & Cẩm nang</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">Liên hệ</a>
+                        </li>
+
+                        <li class="nav-item dropdown ms-lg-3">
+                            <a class="nav-link dropdown-toggle small" href="#" id="langDropdown"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-globe me-1"></i> VI
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+                                <li><a class="dropdown-item" href="#">Tiếng Việt</a></li>
+                                <li><a class="dropdown-item" href="#">English</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                            <a class="btn btn-brand" href="#booking">
+                                <i class="fa-solid fa-bed me-2"></i>Đặt phòng ngay
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main content -->
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-5 pt-5 pb-4 text-white">
         <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
+            <div class="row gy-4">
+                <div class="col-md-4">
+                    <h5 class="footer-title">MILA HOTEL GROUP</h5>
+                    <p class="small mb-2">
+                        Hệ thống khách sạn gần biển Vũng Tàu, có hồ bơi và không gian nghỉ dưỡng phù hợp gia đình, nhóm bạn và khách công tác.
+                    </p>
+                    <p class="small mb-1">
+                        <i class="fa-solid fa-location-dot me-2"></i>
+                        B36 Thái Văn Lung, Phường Vũng Tàu
+                    </p>
+                    <p class="small mb-1">
+                        <i class="fa-solid fa-phone me-2"></i>
+                        (0254) 3836 863 | Hotline: 083 9333 789
+                    </p>
+                    <p class="small mb-0">
+                        <i class="fa-solid fa-envelope me-2"></i>
+                        milahotelgroup@example.com
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <h5 class="footer-title">Thông tin</h5>
+                    <ul class="list-unstyled footer-links small">
+                        <li><a href="#booking">Chính sách đặt phòng</a></li>
+                        <li><a href="#facilities">Tiện nghi & dịch vụ</a></li>
+                        <li><a href="#blog">Cẩm nang du lịch Vũng Tàu</a></li>
+                        <li><a href="#">Điều khoản & điều kiện</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4" id="contact">
+                    <h5 class="footer-title">Kết nối với chúng tôi</h5>
+                    <div class="d-flex gap-2 mb-3">
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <p class="small mb-0">Đội ngũ lễ tân phục vụ 24/7, sẵn sàng hỗ trợ mọi thắc mắc của quý khách.</p>
+                </div>
+            </div>
+
+            <hr class="mt-4 mb-3 border-light border-opacity-25" />
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small">
+                <span>© @DateTime.Now.Year MILA HOTEL GROUP. All rights reserved.</span>
+                <span class="mt-2 mt-md-0">Powered by KH</span>
             </div>
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </footer>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

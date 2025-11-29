@@ -1,33 +1,276 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using HQTCSDL.Models
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var loaiPhongs = ViewBag.LoaiPhongs as List<LoaiPhong>;
+    var anhLoaiPhong = ViewBag.AnhLoaiPhong as Dictionary<int, string>;
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+@section Styles {
+    <!-- Nếu cần CSS riêng cho trang này thì thêm ở đây -->
+}
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+<!-- HERO + BOOKING -->
+<section class="hero-section position-relative">
+    <div class="hero-overlay"></div>
+    <div class="container h-100">
+        <div class="row align-items-center h-100 py-5">
+            <div class="col-lg-6 text-white hero-text">
+                <h1 class="display-5 fw-semibold mb-3">
+                    MILA HOTEL
+                </h1>
+                <p class="lead mb-4">
+                    Trải nghiệm kỳ nghỉ gần biển Vũng Tàu với hồ bơi, không gian xanh và dịch vụ thân thiện.
+                </p>
+                <ul class="list-unstyled hero-list mb-4">
+                    <li><i class="fa-solid fa-check me-2"></i>Vị trí thuận tiện, gần bãi tắm</li>
+                    <li><i class="fa-solid fa-check me-2"></i>Nhiều hạng phòng phù hợp mọi nhu cầu</li>
+                    <li><i class="fa-solid fa-check me-2"></i>Đội ngũ phục vụ chuyên nghiệp 24/7</li>
+                </ul>
+            </div>
+            <div class="col-lg-5 ms-auto" id="booking">
+                <div class="booking-card p-4 rounded-4 bg-white shadow-lg">
+                    <h5 class="fw-semibold mb-3 text-primary-brand">Đặt phòng khách sạn</h5>
+
+                    @* Gửi dữ liệu sang Room/Index *@
+                    <form action="@Url.Action("Index", "Room")" method="get">
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Chọn loại phòng</label>
+                            <select class="form-select" name="loai">
+                                <option value="">Tất cả loại phòng</option>
+                                @if (loaiPhongs != null)
+                                {
+                                    foreach (var lp in loaiPhongs)
+                                    {
+                                        <option value="@lp.MaLoai">@lp.TenLoai</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label small fw-semibold">Ngày đến</label>
+                                <input type="date" class="form-control" name="ngayden"
+                                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                       id="checkIn" />
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label small fw-semibold">Ngày đi</label>
+                                <input type="date" class="form-control" name="ngaydi"
+                                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                       id="checkOut" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label small fw-semibold">Người lớn</label>
+                                <select class="form-select" name="nguoilon">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <option>@i</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label small fw-semibold">Trẻ em (0 - 11)</label>
+                                <select class="form-select" name="treem">
+                                    @for (int i = 0; i <= 5; i++)
+                                    {
+                                        <option>@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-brand">
+                                <i class="fa-solid fa-magnifying-glass me-2"></i>Tìm phòng
+                            </button>
+                        </div>
+                    </form>
+
+                    <p class="small text-muted mt-2 mb-0">
+                        *Yêu cầu đặc biệt (nhận phòng sớm, giường phụ, v.v...) vui lòng ghi chú khi đặt phòng.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-</main>
+</section>
+
+<!-- DANH SÁCH LOẠI PHÒNG -->
+<section class="py-5" id="rooms">
+    <div class="container">
+        <div class="section-heading text-center mb-4">
+            <h2 class="fw-semibold mb-2">Các loại phòng tại MILA HOTEL</h2>
+            <p class="text-muted mb-0">
+                Chọn loại phòng phù hợp nhu cầu của bạn.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var lp in loaiPhongs)
+            {
+                string anh = "/Content/images/default-room.jpg";
+
+                if (anhLoaiPhong.ContainsKey(lp.MaLoai) && !string.IsNullOrEmpty(anhLoaiPhong[lp.MaLoai]))
+                {
+                    anh = anhLoaiPhong[lp.MaLoai];
+                }
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card hotel-card h-100 border-0 shadow-sm">
+                        <div class="hotel-card-img bg-cover"
+                             style="background-image:url('@anh')"></div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">@lp.TenLoai</h5>
+                            <p class="small mb-1">Tối đa @lp.SoNguoiToiDa người</p>
+                            <p class="small fw-semibold">@String.Format("{0:N0}", lp.Gia) đ/đêm</p>
+
+                            <a href="@Url.Action("Index", "Room", new { loai = lp.MaLoai })"
+                               class="btn btn-outline-brand btn-sm">
+                                Xem phòng
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- GIỚI THIỆU / TIỆN NGHI -->
+<section class="py-5 bg-light" id="facilities">
+    <div class="container">
+        <div class="row gy-4 align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-semibold mb-3">MILA HOTEL GROUP</h2>
+                <p class="text-muted mb-3">
+                    Nếu anh đang tìm khách sạn Vũng Tàu gần biển, có hồ bơi, giá hợp lý và dịch vụ ổn định,
+                    MILA HOTEL là lựa chọn phù hợp cho kỳ nghỉ ngắn ngày lẫn dài ngày.
+                </p>
+                <p class="text-muted mb-3">
+                    Hệ thống nhiều khách sạn & resort giúp khách dễ dàng chọn khu vực thuận tiện, phòng ốc sạch sẽ,
+                    nhân viên nhiệt tình và không gian thân thiện với gia đình có trẻ nhỏ.
+                </p>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="facility-item">
+                            <i class="fa-solid fa-water-ladder me-2"></i>Hồ bơi ngoài trời
+                        </div>
+                        <div class="facility-item">
+                            <i class="fa-solid fa-umbrella-beach me-2"></i>Gần bãi tắm
+                        </div>
+                        <div class="facility-item">
+                            <i class="fa-solid fa-mug-saucer me-2"></i>Bữa sáng nhẹ
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="facility-item">
+                            <i class="fa-solid fa-wifi me-2"></i>Wi-Fi miễn phí
+                        </div>
+                        <div class="facility-item">
+                            <i class="fa-solid fa-car me-2"></i>Chỗ đậu xe
+                        </div>
+                        <div class="facility-item">
+                            <i class="fa-solid fa-clock me-2"></i>Lễ tân 24/7
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 ms-auto">
+                <div class="about-image bg-cover rounded-4 shadow"
+                     style="background-image:url('/Content/images/pool-view.jpg')"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TIN / CẨM NANG DU LỊCH -->
+<section class="py-5" id="blog">
+    <div class="container">
+        <div class="section-heading text-center mb-4">
+            <h2 class="fw-semibold mb-2">Tin & Cẩm nang du lịch Vũng Tàu</h2>
+            <p class="text-muted mb-0">
+                Gợi ý lịch trình, điểm vui chơi và lưu ý nhỏ để chuyến đi trọn vẹn hơn.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="blog-card-img bg-cover"
+                         style="background-image:url('/Content/images/payment-guide.jpg')"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Hướng dẫn đặt cọc & thanh toán</h5>
+                        <p class="card-text small text-muted">
+                            Để giữ phòng chắc chắn, khách chỉ cần đặt cọc một phần chi phí, số còn lại thanh toán khi nhận phòng.
+                        </p>
+                        <a href="#" class="btn btn-link px-0 small">Xem chi tiết <i class="fa-solid fa-arrow-right-long ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="blog-card-img bg-cover"
+                         style="background-image:url('/Content/images/guide-vungtau.jpg')"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Cẩm nang du lịch Vũng Tàu</h5>
+                        <p class="card-text small text-muted">
+                            Tổng hợp thời điểm đẹp, món ăn nên thử và những lưu ý nhỏ khi di chuyển tại Vũng Tàu.
+                        </p>
+                        <a href="#" class="btn btn-link px-0 small">Xem chi tiết <i class="fa-solid fa-arrow-right-long ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="blog-card-img bg-cover"
+                         style="background-image:url('/Content/images/hidden-spots.jpg')"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Gợi ý những điểm check-in ít người biết</h5>
+                        <p class="card-text small text-muted">
+                            Một vài góc cảnh yên tĩnh, ít đông đúc nhưng vẫn rất đẹp để chụp hình và thư giãn.
+                        </p>
+                        <a href="#" class="btn btn-link px-0 small">Xem chi tiết <i class="fa-solid fa-arrow-right-long ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkIn = document.getElementById("checkIn");
+            const checkOut = document.getElementById("checkOut");
+
+            if (!checkIn || !checkOut) return;
+
+            // Hôm nay
+            const today = new Date().toISOString().split("T")[0];
+            checkIn.min = today;
+            checkOut.min = today;
+
+            // Khi chọn ngày đến
+            checkIn.addEventListener("change", function () {
+                if (!checkIn.value) return;
+
+                // Ép ngày đi MIN = ngày đến
+                checkOut.min = checkIn.value;
+
+                // Nếu ngày đi < ngày đến → xoá ngày đi
+                if (checkOut.value && checkOut.value < checkIn.value) {
+                    checkOut.value = "";
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,167 @@
+﻿@model HQTCSDL.Models.ViewModels.RoomListViewModel
+@{
+    ViewBag.Title = "Tìm phòng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var loai_selected = Request["loai"];
+    var ngayDen_selected = Request["ngayden"];
+    var ngayDi_selected = Request["ngaydi"];
+    var nguoiLon_selected = Request["nguoilon"];
+    var treEm_selected = Request["treem"];
+}
+
+<section class="py-5">
+    <div class="container">
+
+        <!-- FORM TÌM PHÒNG (như Home nhưng có giữ lại giá trị) -->
+        <div class="booking-card p-4 rounded-4 bg-white shadow-lg mb-5">
+            <h5 class="fw-semibold mb-3 text-primary-brand">Tìm phòng khách sạn</h5>
+
+            <form action="@Url.Action("Index", "Room")" method="get">
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label small fw-semibold">Chọn loại phòng</label>
+                        <select class="form-select" name="loai">
+                            <option value="">Tất cả loại phòng</option>
+                            @foreach (var lp in Model.LoaiPhongs)
+                            {
+                                <option value="@lp.MaLoai"
+                                        @(loai_selected == lp.MaLoai.ToString() ? "selected" : "")>
+                                    @lp.TenLoai
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label small fw-semibold">Ngày đến</label>
+                        <input type="date"
+                               class="form-control"
+                               name="ngayden"
+                               id="checkIn"
+                               value="@ngayDen_selected"
+                               min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label small fw-semibold">Ngày đi</label>
+                        <input type="date"
+                               class="form-control"
+                               name="ngaydi"
+                               id="checkOut"
+                               value="@ngayDi_selected"
+                               min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label small fw-semibold">Người lớn</label>
+                        <select class="form-select" name="nguoilon">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <option value="@i" @(nguoiLon_selected == i.ToString() ? "selected" : "")>@i</option>
+                            }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label small fw-semibold">Trẻ em (0 - 11)</label>
+                        <select class="form-select" name="treem">
+                            @for (int i = 0; i <= 5; i++)
+                            {
+                                <option value="@i" @(treEm_selected == i.ToString() ? "selected" : "")>@i</option>
+                            }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-brand">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i>Tìm phòng
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+        @if (ViewBag.DateError != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.DateError
+            </div>
+        }
+
+        <!-- DANH SÁCH PHÒNG -->
+        <h4 class="fw-semibold mb-3">Kết quả tìm kiếm</h4>
+
+        <div class="row g-4">
+            @if (Model.Rooms != null && Model.Rooms.Any())
+            {
+                foreach (var room in Model.Rooms)
+                {
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card hotel-card h-100 border-0 shadow-sm">
+                            <div class="hotel-card-img bg-cover"
+                                 style="background-image:url('@(room.AnhDaiDien ?? "/Content/images/default-room.jpg")')">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@room.TenPhong - @room.TenLoai</h5>
+                                <p class="card-text small mb-1">
+                                    Tối đa @room.SoNguoiToiDa người
+                                </p>
+                                <p class="card-text small fw-semibold mb-2">
+                                    @room.Gia.ToString("N0") đ / đêm
+                                </p>
+                                <a href="@Url.Action("Details", "Room", new { id = room.MaPhong })"
+                                   class="btn btn-outline-brand btn-sm">
+                                    Chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="alert alert-warning">
+                        Hiện chưa có phòng phù hợp, vui lòng thử lại với các tiêu chí khác.
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkIn = document.getElementById("checkIn");
+        const checkOut = document.getElementById("checkOut");
+
+        if (!checkIn || !checkOut) return;
+
+        // Hôm nay
+        const today = new Date().toISOString().split("T")[0];
+        checkIn.min = today;
+        checkOut.min = today;
+
+        // Khi chọn ngày đến
+        checkIn.addEventListener("change", function () {
+            if (!checkIn.value) return;
+
+            // Ép ngày đi MIN = ngày đến
+            checkOut.min = checkIn.value;
+
+            // Nếu ngày đi < ngày đến → xoá ngày đi
+            if (checkOut.value && checkOut.value < checkIn.value) {
+                checkOut.value = "";
+            }
+        });
+    });
+</script>
+}

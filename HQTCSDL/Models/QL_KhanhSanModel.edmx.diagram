@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="72a5622f23a84d7d8d4b25c75b0ec48e" Name="Diagram1">
+        <EntityTypeShape EntityType="QL_KhachSanModel.ChiTietDatPhong" Width="1.5" PointX="8.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.DanhGia" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.DatPhong" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.DichVu" Width="1.5" PointX="6" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.HinhAnhPhong" Width="1.5" PointX="3" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.HoaDon" Width="1.5" PointX="8.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.KhachHang" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.LoaiPhong" Width="1.5" PointX="1.5" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.NhanVien" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.Phong" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.SuDungDichVu" Width="1.5" PointX="8.25" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.TaiKhoan" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_KhachSanModel.ThanhToan" Width="1.5" PointX="10.5" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_CTDP_DP" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_CTDP_P" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_DG_KH" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_DG_P" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_DP_KH" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_DP_NV" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_HD_DP" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_SDDV_DP" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_SDDV_DV" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_HAP_P" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_HD_NV" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_TT_HD" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_TK_KH" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_P_LP" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_KhachSanModel.FK_TK_NV" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
